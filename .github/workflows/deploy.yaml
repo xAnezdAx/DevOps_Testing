@@ -29,15 +29,15 @@ jobs:
 
     steps:
 
-      - name: SSH into EC2 and deploy container
+      - name: SSH intro EC2 and deploy container
         uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: $${{ secrets.EC2_IP}}
-          username: $${{ secrets.EC2_USER}}
-          key: $${{ secrets.AWS_ACCESS_PEM}}
+        with: 
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USER}}
+          key: ${{ secrets.AWS_ACCESS_PEM }}
           script: |
             echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin
             docker pull ghcr.io/${{ secrets.GH_USERNAME }}/fastapi-app:latest
             docker stop fastapi-app || true
             docker rm fastapi-app || true
-            docker run -d -p 8000:8000 --name fastapi-app ghcr.io/${{ secrets.GH_USERNAME }}/fastapi-app:latest 
+            docker run -d -p 8000:8000 --name fastapi-app ghcr.io/${{ secrets.GH_USERNAME }}/fastapi-app:latest
